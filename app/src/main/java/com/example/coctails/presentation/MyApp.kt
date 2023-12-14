@@ -11,13 +11,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.domain2.entity.Recipe
 import com.example.coctails.viewmodel.MyViewModel
+import com.example.domain2.entity.Recipe
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MyApp(
-    viewModel: MyViewModel
+    viewModel: MyViewModel = koinViewModel()
 ) {
     var showBottomNavi by remember {
         mutableStateOf(true)
@@ -45,7 +46,6 @@ fun MyApp(
             exit = fadeOut()
         ) {
             Greeting(
-                viewModel = viewModel,
                 onContinueClicked = { showBottomNavi = false },
             )
         }
@@ -69,8 +69,7 @@ fun MyApp(
                 recipe = null,
                 onIconClicked = { showBottomNavi = true },
                 onCancelClick = { showBottomNavi = true },
-                onSaveClick = { showBottomNavi = true },
-                viewModel = viewModel
+                onSaveClick = { showBottomNavi = true }
             )
         }
     }

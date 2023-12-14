@@ -55,6 +55,7 @@ import com.example.coctails.utils.extractUri
 import com.example.coctails.viewmodel.MyViewModel
 import com.example.domain2.entity.Recipe
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
@@ -64,7 +65,7 @@ fun AddCocktail(
     onIconClicked: () -> Unit,
     onCancelClick: () -> Unit,
     onSaveClick: () -> Unit,
-    viewModel: MyViewModel
+    viewModel: MyViewModel = koinViewModel()
 ) {
     var oldImage by remember {
         mutableStateOf(recipe?.image)

@@ -2,10 +2,7 @@ package com.example.coctails.viewmodel
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.data.data.database.RecipeDao
-import com.example.data.data.repositoryimplementation.RepositoryImpl
 import com.example.domain2.entity.Recipe
 import com.example.domain2.usecase.UseCase
 import kotlinx.coroutines.flow.SharingStarted
@@ -49,15 +46,5 @@ class MyViewModel(
         viewModelScope.launch {
             useCase.deleteRecipe(recipe)
         }
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-class MyViewModelFactory(
-    private val recipeDao: RecipeDao
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val useCase = UseCase(RepositoryImpl(recipeDao))
-        return MyViewModel(useCase) as T
     }
 }
