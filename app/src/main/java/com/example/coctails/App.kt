@@ -10,16 +10,8 @@ import org.koin.core.context.startKoin
 
 class App : Application() {
 
-    lateinit var db: AppDataBase
-
     override fun onCreate() {
         super.onCreate()
-
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDataBase::class.java,
-            "db"
-        ).fallbackToDestructiveMigration().build()
 
         startKoin {
             androidLogger()
