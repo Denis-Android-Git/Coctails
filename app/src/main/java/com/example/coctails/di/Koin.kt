@@ -11,12 +11,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val module = module {
-    single<Repository> { RepositoryImpl(get()) }
-    factory { UseCase(get()) }
-    viewModel { MyViewModel(get()) }
-}
-
-val dataModule = module {
     single {
         Room.databaseBuilder(
             androidContext(),
@@ -24,7 +18,7 @@ val dataModule = module {
             "db"
         ).fallbackToDestructiveMigration().build()
     }
+    single<Repository> { RepositoryImpl(get()) }
+    factory { UseCase(get()) }
+    viewModel { MyViewModel(get()) }
 }
-val allModules = listOf(dataModule, module)
-
-//
