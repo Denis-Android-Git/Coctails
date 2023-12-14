@@ -10,9 +10,11 @@ class UseCase(
     suspend fun deleteRecipe(recipe: Recipe) {
         repository.deleteRecipe(recipe)
     }
+
     fun getRecipes(): Flow<List<Recipe>> {
         return repository.getAllRecipes()
     }
+
     suspend fun addRecipe(recipe: Recipe) {
         repository.upsertRecipe(recipe)
     }
