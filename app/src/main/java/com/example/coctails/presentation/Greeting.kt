@@ -50,8 +50,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coctails.R
-import com.example.domain2.entity.Recipe
 import com.example.coctails.viewmodel.MyViewModel
+import com.example.domain2.entity.Recipe
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
@@ -216,7 +216,12 @@ fun Greeting(
                                 state = rememberLazyGridState(),
                                 contentPadding = PaddingValues(20.dp)
                             ) {
-                                items(recipeList) {
+                                items(
+                                    recipeList,
+                                    key = {
+                                        it.id
+                                    }
+                                ) {
                                     Log.d("tag", "recipeList: ${recipeList.joinToString("/")}")
                                     Item(recipe = it) {
                                         showDetailScreen = true
