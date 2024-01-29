@@ -1,22 +1,24 @@
 [versions]
-agp = "8.2.1"
+agp = "8.2.2"
 coil-compose = "2.5.0"
 gson = "2.10.1"
 kotlin = "1.9.22"
 core-ktx = "1.12.0"
-ksp = "1.9.22-1.0.16"
+ksp = "1.9.22-1.0.17"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
-lifecycle-runtime-ktx = "2.6.2"
+lifecycle-runtime-ktx = "2.7.0"
 activity-compose = "1.8.2"
-compose-bom = "2023.10.01"
-material = "1.5.4"
+compose-bom = "2024.01.00"
+material = "1.6.0"
 room-runtime = "2.6.1"
-jetbrains-kotlin-jvm = "1.9.10"
+jetbrains-kotlin-jvm = "1.9.22"
 koinAndroidxCompose = "3.5.2-RC1"
+leakcanaryAndroid = "2.13"
 
 [libraries]
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-runtime-ktx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-runtime-ktx" }

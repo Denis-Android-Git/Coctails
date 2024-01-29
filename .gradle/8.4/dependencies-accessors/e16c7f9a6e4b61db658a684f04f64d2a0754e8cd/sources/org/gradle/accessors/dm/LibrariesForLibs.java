@@ -502,7 +502,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
         public VersionAccessors(ProviderFactory providers, DefaultVersionCatalog config) { super(providers, config); }
 
             /**
-             * Returns the version associated to this alias: agp (8.2.0)
+             * Returns the version associated to this alias: agp (8.2.1)
              * If the version is a rich version and that its not expressible as a
              * single version string, then an empty string is returned.
              * This version was declared in catalog libs.versions.toml
@@ -534,7 +534,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
             public Provider<String> getKoinAndroidxCompose() { return getVersion("koinAndroidxCompose"); }
 
             /**
-             * Returns the version associated to this alias: kotlin (1.9.21)
+             * Returns the version associated to this alias: kotlin (1.9.22)
              * If the version is a rich version and that its not expressible as a
              * single version string, then an empty string is returned.
              * This version was declared in catalog libs.versions.toml
@@ -542,7 +542,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
             public Provider<String> getKotlin() { return getVersion("kotlin"); }
 
             /**
-             * Returns the version associated to this alias: ksp (1.9.21-1.0.16)
+             * Returns the version associated to this alias: ksp (1.9.22-1.0.16)
              * If the version is a rich version and that its not expressible as a
              * single version string, then an empty string is returned.
              * This version was declared in catalog libs.versions.toml
@@ -627,7 +627,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
         public ActivityVersionAccessors(ProviderFactory providers, DefaultVersionCatalog config) { super(providers, config); }
 
             /**
-             * Returns the version associated to this alias: activity.compose (1.8.1)
+             * Returns the version associated to this alias: activity.compose (1.8.2)
              * If the version is a rich version and that its not expressible as a
              * single version string, then an empty string is returned.
              * This version was declared in catalog libs.versions.toml

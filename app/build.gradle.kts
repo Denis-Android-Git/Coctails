@@ -39,7 +39,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.6"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
     packaging {
         resources {
@@ -86,4 +86,6 @@ dependencies {
 
     //Koin
     implementation (libs.koin.androidx.compose)
+    //Leak canary
+    debugImplementation(libs.leakcanary.android)
 }
