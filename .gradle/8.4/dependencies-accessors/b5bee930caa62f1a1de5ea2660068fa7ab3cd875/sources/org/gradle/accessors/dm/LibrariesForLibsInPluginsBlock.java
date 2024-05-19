@@ -788,7 +788,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
             public Provider<String> getLeakcanaryAndroid() { return getVersion("leakcanaryAndroid"); }
 
             /**
-             * Returns the version associated to this alias: material (1.6.0)
+             * Returns the version associated to this alias: material (1.6.1)
              * If the version is a rich version and that its not expressible as a
              * single version string, then an empty string is returned.
              * This version was declared in catalog libs.versions.toml

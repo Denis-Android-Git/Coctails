@@ -36,8 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.example.coctails.R
 import com.example.coctails.viewmodel.MyViewModel
 import com.example.domain2.entity.Recipe
@@ -47,10 +46,9 @@ fun DetailScreen(
     recipe: Recipe,
     onEditClick: () -> Unit,
     onBackClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
+    viewModel: MyViewModel
 ) {
-
-    val viewModel: MyViewModel = viewModel()
 
     var showConformation by remember {
         mutableStateOf(false)
@@ -58,8 +56,6 @@ fun DetailScreen(
     Box(
         modifier = Modifier.fillMaxWidth()
     ) {
-        val painter = rememberAsyncImagePainter(model = recipe.image)
-
         if (recipe.image.isEmpty()) {
             Image(
                 painter = painterResource(id = R.drawable.oldfashioned),
@@ -70,8 +66,8 @@ fun DetailScreen(
                 contentScale = ContentScale.Crop
             )
         } else {
-            Image(
-                painter = painter,
+            AsyncImage(
+                model = recipe.image,
                 contentDescription = null,
                 modifier = Modifier
                     .height(500.dp)

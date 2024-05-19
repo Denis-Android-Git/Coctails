@@ -2,7 +2,6 @@ package com.example.coctails.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -31,13 +30,16 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,7 +54,6 @@ import androidx.compose.ui.unit.sp
 import com.example.coctails.R
 import com.example.coctails.viewmodel.MyViewModel
 import com.example.domain2.entity.Recipe
-import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -62,8 +63,8 @@ fun Greeting(
     onContinueClicked: () -> Unit
 ) {
 
-    var recipeList by remember {
-        mutableStateOf(emptyList<Recipe>())
+    val list2Delete = remember {
+        mutableStateListOf<Recipe>()
     }
 
     var showDetailScreen by remember {
@@ -83,152 +84,164 @@ fun Greeting(
 
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        viewModel.allRecipes.collect {
-            recipeList = it
-        }
+    val recipeList = viewModel.allRecipes.collectAsState()
 
+    val fabShape = RoundedCornerShape(50)
+
+    var showCheckBox by remember {
+        mutableStateOf(false)
     }
 
-    if (showGreetingScreen) {
-
-        val fabShape = RoundedCornerShape(50)
-
-        var isVisible by remember {
-            mutableStateOf(false)
-        }
-        LaunchedEffect(Unit) {
-            delay(10)
-            isVisible = true
-        }
-        AnimatedVisibility(
-            visible = isVisible,
-            modifier = Modifier
-                .fillMaxWidth(),
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            Scaffold(
-                backgroundColor = MaterialTheme.colorScheme.background,
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = onContinueClicked,
-                        shape = fabShape,
-                        backgroundColor = Color(0xFF4B97FF)
-                    ) {
-                        Icon(Icons.Default.Add, "", tint = Color.White)
-                    }
-                },
-                isFloatingActionButtonDocked = true,
-                floatingActionButtonPosition = FabPosition.Center,
-                bottomBar = {
-                    BottomAppBar(
-                        cutoutShape = fabShape,
-                        content = {},
-                        backgroundColor = Color.White,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                    )
+    AnimatedVisibility(
+        visible = showGreetingScreen,
+        modifier = Modifier
+            .fillMaxWidth(),
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        Scaffold(
+            backgroundColor = MaterialTheme.colorScheme.background,
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = onContinueClicked,
+                    shape = fabShape,
+                    backgroundColor = Color(0xFF4B97FF)
+                ) {
+                    Icon(Icons.Default.Add, "", tint = Color.White)
                 }
-            ) { _ ->
-                if (recipeList.isEmpty()) {
-                    Column(modifier = Modifier.fillMaxWidth()) {
+            },
+            isFloatingActionButtonDocked = true,
+            floatingActionButtonPosition = FabPosition.Center,
+            bottomBar = {
+                BottomAppBar(
+                    cutoutShape = fabShape,
+                    content = {},
+                    backgroundColor = Color.White,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
+                )
+            }
+        ) { _ ->
+            AnimatedVisibility(recipeList.value.isEmpty()) {
+                Column(modifier = Modifier.fillMaxWidth()) {
 
-                        Image(
-                            painter = painterResource(id = R.drawable.img),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(top = 100.dp)
-                        )
+                    Image(
+                        painter = painterResource(id = R.drawable.img),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 100.dp)
+                    )
 
-                        Text(
-                            text = "My Cocktails",
-                            fontSize = 36.sp,
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                        )
-                        Spacer(modifier = Modifier.height(46.dp))
-                        Text(
-                            text = "Add your first cocktail here",
-                            fontSize = 16.sp,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-                        Spacer(modifier = Modifier.height(46.dp))
-                        Image(
-                            painter = painterResource(id = R.drawable.img_1),
-                            contentDescription = null,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-                        Spacer(modifier = Modifier.height(46.dp))
-                    }
-                } else {
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        Column(
-                            modifier = Modifier.padding(6.dp)
-                        ) {
-                            Box(modifier = Modifier.fillMaxWidth()) {
-                                Text(
-                                    text = "My Cocktails",
-                                    fontSize = 36.sp,
+                    Text(
+                        text = "My Cocktails",
+                        fontSize = 36.sp,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                    )
+                    Spacer(modifier = Modifier.height(46.dp))
+                    Text(
+                        text = "Add your first cocktail here",
+                        fontSize = 16.sp,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Spacer(modifier = Modifier.height(46.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.img_1),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Spacer(modifier = Modifier.height(46.dp))
+                }
+            }
+            AnimatedVisibility(visible = recipeList.value.isNotEmpty()) {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Column(
+                        modifier = Modifier.padding(6.dp)
+                    ) {
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            androidx.compose.animation.AnimatedVisibility(visible = showCheckBox) {
+                                IconButton(
+                                    onClick = {
+                                        list2Delete.forEach {
+                                            viewModel.deleteRecipe(it)
+                                        }
+                                    },
+                                    modifier = Modifier.align(Alignment.TopStart)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                            Text(
+                                text = "My Cocktails",
+                                fontSize = 36.sp,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(6.dp)
+                                    .size(38.dp)
+                                    .background(color = Color.White, shape = CircleShape)
+                                    .clickable {
+                                        val sendIntent: Intent = Intent().apply {
+                                            action = Intent.ACTION_SEND
+                                            putExtra(
+                                                Intent.EXTRA_TEXT,
+                                                "Смотри какие коктейли я создал в приложении Cocktail Bar!\n" +
+                                                        "${
+                                                            recipeList.value
+                                                                .take(4)
+                                                                .joinToString(", ") {
+                                                                    it.title
+                                                                }
+                                                        } и другие." +
+                                                        "Хочешь попробовать?\n"
+                                            )
+                                            type = "text/plain"
+                                        }
+                                        val shareIntent = Intent.createChooser(sendIntent, null)
+                                        context.startActivity(shareIntent)
+                                    }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Share,
+                                    contentDescription = "delete recipe",
+                                    tint = Color.Black,
                                     modifier = Modifier
                                         .align(Alignment.Center)
                                 )
-                                Box(
-                                    modifier = Modifier
-                                        .align(Alignment.TopEnd)
-                                        .padding(6.dp)
-                                        .size(38.dp)
-                                        .background(color = Color.White, shape = CircleShape)
-                                        .clickable {
-                                            val sendIntent: Intent = Intent().apply {
-                                                action = Intent.ACTION_SEND
-                                                putExtra(
-                                                    Intent.EXTRA_TEXT,
-                                                    "Смотри какие коктейли я создал в приложении Cocktail Bar!\n" +
-                                                            "${
-                                                                recipeList
-                                                                    .take(4)
-                                                                    .joinToString(", ") {
-                                                                        it.title
-                                                                    }
-                                                            } и другие." +
-                                                            "Хочешь попробовать?\n"
-                                                )
-                                                type = "text/plain"
-                                            }
-                                            val shareIntent = Intent.createChooser(sendIntent, null)
-                                            context.startActivity(shareIntent)
-                                        }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Share,
-                                        contentDescription = "delete recipe",
-                                        tint = Color.Black,
-                                        modifier = Modifier
-                                            .align(Alignment.Center)
-                                    )
-                                }
-
                             }
-                            LazyVerticalGrid(
-                                columns = GridCells.Adaptive(minSize = 120.dp),
-                                state = rememberLazyGridState(),
-                                contentPadding = PaddingValues(20.dp)
+
+                        }
+                        LazyVerticalGrid(
+                            columns = GridCells.Adaptive(minSize = 120.dp),
+                            state = rememberLazyGridState(),
+                            contentPadding = PaddingValues(20.dp)
+                        ) {
+                            items(
+                                recipeList.value,
+                                key = {
+                                    it.id
+                                }
                             ) {
-                                items(
-                                    recipeList,
-                                    key = {
-                                        it.id
-                                    }
-                                ) {
-                                    Log.d("tag", "recipeList: ${recipeList.joinToString("/")}")
-                                    Item(recipe = it) {
+                                Item(
+                                    recipe = it,
+                                    listToDelete = list2Delete,
+                                    onLongClick = {
+                                        showCheckBox = !showCheckBox
+                                    },
+                                    showCheckBox = showCheckBox,
+                                    onItemClick = {
                                         showDetailScreen = true
                                         showGreetingScreen = false
                                         recipe = it
                                     }
-                                }
+                                )
                             }
                         }
                     }
@@ -236,47 +249,38 @@ fun Greeting(
             }
         }
     }
-    if (showDetailScreen) {
-        var isVisible2 by remember {
-            mutableStateOf(false)
-        }
-        LaunchedEffect(Unit) {
-            delay(10)
-            isVisible2 = true
-        }
 
-        AnimatedVisibility(
-            visible = isVisible2,
-            modifier = Modifier
-                .fillMaxWidth(),
-            enter = fadeIn(animationSpec = tween(durationMillis = 600, easing = LinearEasing)),
-            exit = fadeOut(animationSpec = tween(durationMillis = 600))
-        ) {
-            recipe?.let {
-                DetailScreen(
-                    recipe = it,
-                    //viewModel = viewModel,
-                    onEditClick = {
-                        showDetailScreen = false
-                        showGreetingScreen = false
-                        showEditScreen = true
-                    },
-                    onBackClick = {
-                        showDetailScreen = false
-                        showGreetingScreen = true
-                    },
-                    onDeleteClick = {
-                        showDetailScreen = false
-                        showGreetingScreen = true
-                    }
-                )
-            }
+    AnimatedVisibility(
+        visible = showDetailScreen,
+        modifier = Modifier
+            .fillMaxWidth(),
+        enter = fadeIn(animationSpec = tween(durationMillis = 600, easing = LinearEasing)),
+        exit = fadeOut(animationSpec = tween(durationMillis = 600))
+    ) {
+        recipe?.let {
+            DetailScreen(
+                recipe = it,
+                onEditClick = {
+                    showDetailScreen = false
+                    showGreetingScreen = false
+                    showEditScreen = true
+                },
+                onBackClick = {
+                    showDetailScreen = false
+                    showGreetingScreen = true
+                },
+                onDeleteClick = {
+                    showDetailScreen = false
+                    showGreetingScreen = true
+                },
+                viewModel = viewModel
+            )
         }
     }
-    if (showEditScreen) {
+    AnimatedVisibility(showEditScreen) {
         recipe?.let {
             AddCocktail(
-                recipes = recipeList,
+                recipes = recipeList.value,
                 recipe = it,
                 onIconClicked = {
                     showEditScreen = false
