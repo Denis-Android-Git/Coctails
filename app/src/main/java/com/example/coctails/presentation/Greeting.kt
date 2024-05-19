@@ -160,7 +160,7 @@ fun Greeting(
                         modifier = Modifier.padding(6.dp)
                     ) {
                         Box(modifier = Modifier.fillMaxWidth()) {
-                            androidx.compose.animation.AnimatedVisibility(visible = showCheckBox) {
+                            androidx.compose.animation.AnimatedVisibility(visible = list2Delete.isNotEmpty()) {
                                 IconButton(
                                     onClick = {
                                         list2Delete.forEach {
