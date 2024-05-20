@@ -51,11 +51,7 @@ fun Item(
                 onClick = onItemClick,
                 onLongClick = {
                     onLongClick()
-                    if (listToDelete.contains(recipe)) {
-                        listToDelete.remove(recipe)
-                    } else {
-                        listToDelete.add(recipe)
-                    }
+                    listToDelete.add(recipe)
                 }
             )
             .shadow(12.dp, RoundedCornerShape(20.dp))
