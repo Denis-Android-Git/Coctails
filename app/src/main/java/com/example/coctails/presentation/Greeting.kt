@@ -92,6 +92,10 @@ fun Greeting(
         mutableStateOf(false)
     }
 
+    if (!showCheckBox) {
+        list2Delete.clear()
+    }
+
     AnimatedVisibility(
         visible = showGreetingScreen,
         modifier = Modifier
