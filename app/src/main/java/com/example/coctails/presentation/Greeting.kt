@@ -50,12 +50,11 @@ import androidx.compose.ui.unit.sp
 import com.example.coctails.R
 import com.example.coctails.viewmodel.MyViewModel
 import com.example.domain2.entity.Recipe
-import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Greeting(
-    viewModel: MyViewModel = koinViewModel(),
+    viewModel: MyViewModel,
     onContinueClicked: () -> Unit
 ) {
 
