@@ -1,8 +1,6 @@
 package com.example.coctails.presentation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,15 +8,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -75,23 +74,26 @@ fun DetailScreen(
                 contentScale = ContentScale.Crop
             )
         }
-
-        Box(
+        IconButton(
+            onClick = onBackClick,
             modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(6.dp)
-                .size(38.dp)
-                .background(color = Color.White, shape = CircleShape)
-                .clickable {
-                    showConformation = true
-                }
+                .align(Alignment.TopStart)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null
+            )
+        }
+        IconButton(
+            modifier = Modifier
+                .align(Alignment.TopEnd),
+            onClick = {
+                showConformation = true
+            }
         ) {
             Icon(
                 imageVector = Icons.Default.Delete,
-                contentDescription = "delete recipe",
-                tint = Color.Black,
-                modifier = Modifier
-                    .align(Alignment.Center)
+                contentDescription = "delete recipe"
             )
         }
 
@@ -212,14 +214,6 @@ fun DetailScreen(
                 }
             }
         }
-        Back(
-            onBackClick,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(6.dp)
-                .size(38.dp)
-                .background(color = Color.White, shape = CircleShape)
-        )
     }
 }
 //

@@ -8,8 +8,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,12 +15,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.FabPosition
@@ -185,39 +181,33 @@ fun Greeting(
                                 modifier = Modifier
                                     .align(Alignment.Center)
                             )
-                            Box(
+                            IconButton(
                                 modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .padding(6.dp)
-                                    .size(38.dp)
-                                    .background(color = Color.White, shape = CircleShape)
-                                    .clickable {
-                                        val sendIntent: Intent = Intent().apply {
-                                            action = Intent.ACTION_SEND
-                                            putExtra(
-                                                Intent.EXTRA_TEXT,
-                                                "Смотри какие коктейли я создал в приложении Cocktail Bar!\n" +
-                                                        "${
-                                                            recipeList.value
-                                                                .take(4)
-                                                                .joinToString(", ") {
-                                                                    it.title
-                                                                }
-                                                        } и другие." +
-                                                        "Хочешь попробовать?\n"
-                                            )
-                                            type = "text/plain"
-                                        }
-                                        val shareIntent = Intent.createChooser(sendIntent, null)
-                                        context.startActivity(shareIntent)
+                                    .align(Alignment.TopEnd),
+                                onClick = {
+                                    val sendIntent: Intent = Intent().apply {
+                                        action = Intent.ACTION_SEND
+                                        putExtra(
+                                            Intent.EXTRA_TEXT,
+                                            "Смотри какие коктейли я создал в приложении Cocktail Bar!\n" +
+                                                    "${
+                                                        recipeList.value
+                                                            .take(4)
+                                                            .joinToString(", ") {
+                                                                it.title
+                                                            }
+                                                    } и другие." +
+                                                    "Хочешь попробовать?\n"
+                                        )
+                                        type = "text/plain"
                                     }
+                                    val shareIntent = Intent.createChooser(sendIntent, null)
+                                    context.startActivity(shareIntent)
+                                }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Share,
                                     contentDescription = "delete recipe",
-                                    tint = Color.Black,
-                                    modifier = Modifier
-                                        .align(Alignment.Center)
                                 )
                             }
 

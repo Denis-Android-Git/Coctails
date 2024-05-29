@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,15 +16,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -88,6 +90,9 @@ fun AddCocktail(
     }
 
     val scope = rememberCoroutineScope()
+    var ingredient by rememberSaveable {
+        mutableStateOf("")
+    }
 
     val getContent =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
@@ -99,22 +104,21 @@ fun AddCocktail(
         }
 
     Column {
-        Back(
-            onIconClicked,
+        IconButton(
+            onClick = onIconClicked,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(6.dp)
-                .size(38.dp)
-                .background(color = Color.White, shape = CircleShape)
-        )
+        ) {
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+        }
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
                     .height(200.dp)
                     .width(200.dp)
             ) {
@@ -181,8 +185,7 @@ fun AddCocktail(
                             fontSize = 20.sp
                         ),
                         modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterHorizontally),
+                            .padding(16.dp),
                         shape = RoundedCornerShape(50.dp),
                     )
                 }
@@ -208,7 +211,6 @@ fun AddCocktail(
                         ),
                         modifier = Modifier
                             .padding(16.dp)
-                            .align(Alignment.CenterHorizontally)
                             .height(174.dp),
                         shape = RoundedCornerShape(50.dp),
                     )
@@ -218,19 +220,17 @@ fun AddCocktail(
             Text(
                 text = "Optional field",
                 color = Color(0xFF79747E),
-                fontSize = 12.sp,
-                modifier = Modifier
-                    .padding(start = 46.dp)
+                fontSize = 12.sp
             )
 
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(
-                    onClick = { showIngredientDialog = true },
-                    modifier = Modifier
-                        .paint(painterResource(id = R.drawable.img_3))
-                ) {}
+                    onClick = { showIngredientDialog = true }
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                }
                 if (ingredientList.isEmpty() && recipe?.ingredients.isNullOrEmpty()) {
                     Text(
                         text = "Add Ingredients",
@@ -286,9 +286,7 @@ fun AddCocktail(
             Text(
                 text = "Optional field",
                 color = Color(0xFF79747E),
-                fontSize = 12.sp,
-                modifier = Modifier
-                    .padding(start = 46.dp)
+                fontSize = 12.sp
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -345,33 +343,16 @@ fun AddCocktail(
     }
 
     if (showIngredientDialog) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f))
-        ) {
-            Column(
-                modifier = Modifier
-                    .height(250.dp)
-                    .align(Alignment.Center)
-                    .padding(start = 16.dp, end = 16.dp)
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(15.dp),
+        AlertDialog(
+            text = {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Add ingredient",
+                        fontSize = 32.sp
                     )
-            ) {
-                Text(
-                    text = "Add ingredient",
-                    fontSize = 32.sp,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                )
 
-                var ingredient by rememberSaveable {
-                    mutableStateOf("")
-                }
-
-                OutlinedTextFieldBackground(Color.White) {
                     OutlinedTextField(
                         value = ingredient,
                         onValueChange = {
@@ -386,14 +367,14 @@ fun AddCocktail(
                             }
                         },
                         textStyle = TextStyle(
-                            color = Color.Black,
                             fontSize = 20.sp
                         ),
-                        shape = RoundedCornerShape(50.dp),
-                        modifier = Modifier
-                            .padding(start = 15.dp)
+                        shape = RoundedCornerShape(50.dp)
                     )
                 }
+            },
+            onDismissRequest = { showIngredientDialog = false },
+            confirmButton = {
                 Button(
                     onClick = {
                         if (ingredient.isEmpty()) {
@@ -416,6 +397,8 @@ fun AddCocktail(
                 ) {
                     Text(text = "Save")
                 }
+            },
+            dismissButton = {
                 Button(
                     onClick = { showIngredientDialog = false },
                     modifier = Modifier
@@ -425,7 +408,7 @@ fun AddCocktail(
                     Text(text = "Cancel")
                 }
             }
-        }
+        )
     }
 }
 
