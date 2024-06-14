@@ -36,6 +36,7 @@ import com.example.domain2.entity.Recipe
 @Composable
 fun Item(
     recipe: Recipe,
+    modifier: Modifier,
     listToDelete: MutableList<Recipe>,
     showCheckBox: Boolean,
     onItemClick: () -> Unit,
@@ -44,7 +45,7 @@ fun Item(
 ) {
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .aspectRatio(1f)
             .padding(10.dp)
             .combinedClickable(
@@ -132,6 +133,7 @@ fun PreviewItem() {
 
         Item(
             item,
+            modifier = Modifier,
             onItemClick = {},
             listToDelete = list2,
             onLongClick = {},

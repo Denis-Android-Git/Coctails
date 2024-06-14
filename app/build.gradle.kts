@@ -89,4 +89,9 @@ dependencies {
     implementation (libs.koin.androidx.compose)
     //Leak canary
     debugImplementation(libs.leakcanary.android)
+
+    //Animation
+    implementation (libs.androidx.animation)
+    implementation(libs.foundation)
+
 }
