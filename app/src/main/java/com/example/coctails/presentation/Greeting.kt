@@ -190,7 +190,7 @@ fun Greeting(
                                         action = Intent.ACTION_SEND
                                         putExtra(
                                             Intent.EXTRA_TEXT,
-                                            "Смотри какие коктейли я создал в приложении Cocktail Bar!\n" +
+                                            "Смотри какие коктейли я создал в приложении Cocktail!\n" +
                                                     "${
                                                         recipeList.value
                                                             .take(4)
