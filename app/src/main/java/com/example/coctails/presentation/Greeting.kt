@@ -122,8 +122,11 @@ fun Greeting(
                         .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
                 )
             }
-        ) { _ ->
-            AnimatedVisibility(recipeList.value.isEmpty()) {
+        ) { padding ->
+            AnimatedVisibility(
+                visible = recipeList.value.isEmpty(),
+                modifier = Modifier.padding(padding)
+            ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
 
                     Image(
@@ -155,7 +158,10 @@ fun Greeting(
                     Spacer(modifier = Modifier.height(46.dp))
                 }
             }
-            AnimatedVisibility(visible = recipeList.value.isNotEmpty()) {
+            AnimatedVisibility(
+                visible = recipeList.value.isNotEmpty(),
+                modifier = Modifier.padding(padding)
+            ) {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Column(
                         modifier = Modifier.padding(6.dp)
